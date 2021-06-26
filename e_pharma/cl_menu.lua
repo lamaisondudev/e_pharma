@@ -378,3 +378,25 @@ Citizen.CreateThread(function()
                 if IsControlJustPressed(1,38) then 			
                     TriggerEvent('esx:deleteVehicle')
          end end end end end)
+
+-----------------------------------------------------------------------------------------------------------------
+---------------------------------------------- Menu BOSS --------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------
+
+local boss = { 
+    {x=364.76, y=-585.00, z=28.7}
+}
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        for k in pairs(boss) do
+            local plyCoords = GetEntityCoords(GetPlayerPed(-1), false)
+            local dist = Vdist(plyCoords.x, plyCoords.y, plyCoords.z, boss[k].x, boss[k].y, boss[k].z)
+            if dist <= 1.5 and PlayerData.job and PlayerData.job.name == 'pharma' and PlayerData.job.grade_name == 'boss'   then
+                DrawMarker(23, 364.76, -585.00, 28.7, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.9, 0.9, 0.9, 255, 255, 0, 255, 0, 1, 2, 0, nil, nil, 0)
+                ESX.ShowHelpNotification("~b~Appuyez sur ~INPUT_PICKUP~ pour acceder a l'ordinateur~s~")
+                if IsControlJustPressed(1,38) then 			
+                    TriggerEvent('esx_society:openBossMenu', 'pharmacie', function(data, menu)
+                        menu.close()
+                    end, {wash = true})
+         end end end end end)  
